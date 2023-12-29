@@ -4,7 +4,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.inventory.FurnaceRecipe;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -12,9 +11,11 @@ import xyz.steffq.customrecipes.CustomRecipes;
 import xyz.steffq.customrecipes.files.Config;
 import xyz.steffq.customrecipes.files.Parse;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-public class CraftingRecipe {
+public class CraftingRecipeClass {
 
 
     private final Config config;
@@ -24,7 +25,9 @@ public class CraftingRecipe {
     private List<String> lore;
     private List<String> recipe;
 
-    public CraftingRecipe(Config config) {
+    private Map<String, ShapedRecipe> customRecipies = new HashMap<>();
+
+    public CraftingRecipeClass(Config config) {
         this.config = config;
         crateCraftinRecipe();
     }
@@ -44,7 +47,9 @@ public class CraftingRecipe {
             meta.setLore(Parse.parseColors(lore));
             item.setItemMeta(meta);
 
-            ShapedRecipe shapedRecipe = new ShapedRecipe(new NamespacedKey(CustomRecipes.getInstance(), key), item);
+            NamespacedKey namespacedKey = new NamespacedKey(CustomRecipes.getInstance(), "Recipes");
+
+            ShapedRecipe shapedRecipe = new ShapedRecipe(namespacedKey, item);
             shapedRecipe.shape(recipe.get(0), recipe.get(1), recipe.get(2));
 
             ConfigurationSection itemsForRecipeSection = config.options().getConfigurationSection("items-for-recipe");
@@ -66,8 +71,16 @@ public class CraftingRecipe {
                 Bukkit.getLogger().warning("Configuration section 'items-for-recipe' is missing or invalid.");
             }
 
-            Bukkit.addRecipe(shapedRecipe);
+
+            registerRecipies(key, shapedRecipe);
+
         }
+    }
+
+    private void registerRecipies(String recipeId, ShapedRecipe recipe) {
+        customRecipies.put(recipeId, recipe);
+
+        Bukkit.addRecipe(recipe);
     }
 
 }
