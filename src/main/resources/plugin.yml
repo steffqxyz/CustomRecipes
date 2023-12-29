@@ -2,3 +2,6 @@ name: CustomRecipes
 version: '${project.version}'
 main: xyz.steffq.customrecipes.CustomRecipes
 api-version: '1.20'
+softdepend:
+  - PlaceholderAPI
+
