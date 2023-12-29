@@ -1,0 +1,19 @@
+recipes-normal:
+  super_paper_furnace:
+    material: 'PAPER' # output item
+    name: '&6Super&cPaper'
+    cooking-time: 3
+    lore:
+      - ''
+      - 'This is a Super Paper'
+    material-input: DIAMOND # for example smelt diamond to get the SuperPaper
+
+recipes-custom: # recipes with the items that you made in config.yml
+  extreme_paper_furnace:
+    material: 'PAPER' # output item
+    name: '&4Extreme&aPaper'
+    cooking-time: 3
+    lore:
+      - ''
+      - 'This is a Extreme Paper'
+    material-input: 'super_paper_crafting' # for example smelt SuperPaper to get the ExtremePaper
